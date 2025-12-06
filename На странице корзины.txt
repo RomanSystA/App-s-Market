@@ -1,0 +1,55 @@
+@startuml
+actor Пользователь as user
+
+participant WebAPI as front
+participant BackEnd as back
+
+database База_данных as db
+
+autonumber 1.1
+Alt 
+front-->user: Отображает страницу выбранного товара с фильтрами по умолчанию
+activate user
+activate front
+else Меняет фильтры
+user->front: Выставляет фильтры
+front->back: PATCH/itm/456/"фильтр1"="100"&"фильтр2"="3"
+activate back
+back->db: SELECT price WHERE "фильтр1"="100" AND "фильтр2"="3"
+activate db
+back-->db: цена с учетом фильтров
+back->front: 200 OK (отображает новую стоимость товара)
+end alt
+user->front: нажимает "Добавить в корзину"
+front->back: POST /cart/add {itm_id=456, filters {"фильтр1"="100", "фильтр2"="3"}
+back->db: INSERT INTO cart_items WHERE user_id=123 AND item_id=456 AND "фильтр1"="100"AND "фильтр2"="3"
+deactivate db
+ALT Товар доступен
+back-->front: 200 OK
+front-->user: "Товар добавлен в корзину"
+else Товар недоступен
+back-->front: 409 Conflict, Товар недоступен
+deactivate back
+front-->user: "Товар недоступен"
+deactivate user
+deactivate front
+end alt
+
+autonumber 2.1
+
+front-->back: PATCH cart/model2
+activate front
+activate back
+back-->db: cart/model2
+activate db
+db-->back: возвращает данные о желтой корзине
+deactivate db
+back-->front: 200 OK
+deactivate back
+front-->front: Корзина перекрашена в желтый
+deactivate front
+
+
+
+
+

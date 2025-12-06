@@ -1,0 +1,29 @@
+@startuml
+actor Пользователь as user
+
+participant WebAPI as front
+participant BackEnd as back
+
+database База_данных as db
+
+user -> front: вводит данные для регистрации (email/password/login)
+activate user
+activate front
+front -> back: Post/api/v1/user/register/'данные'
+activate back
+back-> db: сохранить данные пользователя
+activate db
+db -->db : проверка совпадений (существует ли такой юзер)
+alt Новый пользователь
+db --> back: user_id = 123
+back --> front: Created 201б user_id = 123
+front --> user: "Регистрация завершена"
+else Пользователь уже существует
+db --> back : 409, "такой пользователь уже существует"
+deactivate db
+back --> front : 409, "такой пользователь уже существует"
+deactivate back
+front --> user: "такой пользователь уже существует"
+deactivate front
+deactivate user
+end alt
