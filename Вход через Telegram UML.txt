@@ -1,0 +1,39 @@
+@startuml
+actor Пользователь as user
+
+participant WebAPI as front
+participant BackEnd as back
+participant TelegramAPI as tg
+
+database База_данных as db
+
+user->front: ввойти через Telegram
+activate user
+activate front
+front->tg: Open Telegram Login Widget
+activate tg
+tg-->user: Запршивает подтверждение доступа
+user->tg: Нажимает Подтвердить вход
+tg-->front: Передает данные юзера (id, username)
+deactivate tg
+front-->back: POSTauthtelegramuser123
+activate back
+back-->back: проверка токена безопасности
+alt Данные корректны
+back->db: user_id=123 (SELECT  FROM users WHERE telegram_id=123)
+alt Если пользователь уже был зарегистрирован другим способом
+db-->back: user record
+back-->front: 200 OK
+front-->user: Вход выполнен, Данные обновлены
+else Пользователь не найден
+db-->back: new user record
+back-->front: 200 OK
+front-->user: Регистрация успешна
+end alt
+else Данные некорректны
+back->front: 400 Пользователь не найден
+deactivate back
+front-->user: Пользователь не найден
+end alt
+deactivate front
+deactivate user

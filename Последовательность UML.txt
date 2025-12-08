@@ -1,0 +1,104 @@
+@startuml
+actor Пользователь as user
+
+participant WebAPI as front
+participant BackEnd as back
+
+database База_данных as db
+
+autonumber 1.1
+
+user->front: авторизация/регистрация через email/password/login/telegramID
+activate user
+activate front
+front->back: GET/user/123 or POST/user/123
+activate back
+back->db: SELECT user_id=123 FROM users
+activate db
+deactivate db
+alt
+back-->front: 200 OK
+front-->user: "Вход выполнен"/"Регистрация успешна"
+else Такого пользователя не существует
+back-->front: 400 Такого пользователя не существует/400 Неверный пароль
+front-->user: "Такого пользователя не существует" / "Неверный пароль"
+deactivate user
+deactivate front
+end alt
+
+autonumber 2.1
+
+alt Выбрать товар со стартовой страницы
+user->front: выбирает товар с главной страницы от конкретного продавца
+activate user
+activate front
+front->back: GET api/v1/itm/456
+activate back
+back->db: SELECT itm_id=456 FROM items
+activate db
+deactivate db
+back-->front: 200 OK
+deactivate back
+ALT Товар доступен
+front-->user: Отображает страницу выбранного товара
+else Товар недоступен
+back-->front: 409 Conflict, Товар недоступен
+deactivate back
+front-->user: "Товар недоступен"
+deactivate user
+deactivate front
+else Выбрать товар через поисковую строку
+user->front: нажимает на поисковую строку и вводит наименование
+activate user
+activate front
+front->back: наименования по совпадениям GET api/v1/search?query="наименование"
+activate back
+back->db: SELECT * FROM items WHERE title LIKE '%наименование%"
+activate db
+deactivate db
+back-->front: 200 OK, список товаров
+front-->user: отображает результаты поиска
+user-->front: нажимает на нужный результат
+front-->back: GET api/v1/search?query="наименование"&sellers=all
+back->db: SELECT * FROM items WHERE title LIKE '%наименование%" and sellers = *
+activate db
+deactivate db
+back-->front: отображает все предложения всех продавцов по данному товару
+alt Выбирает конкретный товар
+user->front: Выбирает конкретный товар
+front->back: GET/itm/456
+back->db: SELECT itm_id=456 FROM item
+back-->front: 200 OK
+ALT Товар доступен
+front-->user: Отображает страницу выбранного товара
+else Товар недоступен
+back-->front: 400 Товар недоступен
+deactivate back
+front-->user: "Товар недоступен"
+deactivate user
+deactivate front
+end alt
+else Выставляет фильтры
+user->front: Выставляет фильтры
+front->back: GET api/v1/"наименование"?"фильтр1"="100"&"фильтр2"="3"
+back->db: SELECT * FROM items WHERE title LIKE '%наименование%" and sellers = * AND "фильтр1"="100" AND "фильтр2"="3"
+back-->front: 200 OK, список товаров
+front-->user: отображает нужные товары
+user->front: нажимает на нужный товар
+front->back: GET/itm/456
+back->db: SELECT itm_id=456 FROM items
+back-->front: 200 OK
+deactivate back
+ALT Товар доступен
+front-->user: Отображает страницу выбранного товара
+else Товар недоступен
+back-->front: 400 Товар недоступен
+deactivate back
+front-->user: "Товар недоступен"
+deactivate user
+deactivate front
+end alt
+deactivate user
+deactivate front
+end alt
+end alt
