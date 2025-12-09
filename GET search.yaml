@@ -25,7 +25,7 @@ paths:
               default: 15
               example: 7
        responses:
-          '200':
+          '201':
            description: Результаты поиска
            content:
              application/json:
@@ -52,3 +52,7 @@ paths:
                          category:
                            type: string
                            example: 'subscription'
+           '404':
+             description: Товар недоступен
+           '409':
+             description: Товар закончился
