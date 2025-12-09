@@ -1,0 +1,83 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Adding to cart",
+    "version": "1.0.0",
+    "description": "Описание методов взимодействия пользователя с корзиной товаров со страницы товара"
+  },
+  "paths": {
+    "/cart/items/{item_id}": {
+      "post": {
+        "summary": "Добавить товар в корзину",
+        "description": "Добавляет товар в корзину; Если данный товар уже есть в коризне, увличивает его количиество",
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "required": true,
+            "description": "Идентификатор товара",
+            "schema": {
+              "type": "integer",
+              "example": 1567
+            }
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "description": "Количество товара, которое нужно добавить",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "quantity": {
+                    "type": "integer",
+                    "description": "Количество товара",
+                    "default": 1,
+                    "example": 4
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Товар добавлен в корзину",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "item_id": {
+                      "type": "integer",
+                      "example": 1567
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Spotify"
+                    },
+                    "quantity": {
+                      "type": "integer",
+                      "example": 2
+                    },
+                    "status": {
+                      "type": "string",
+                      "example": "added"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Товар недоступен"
+          },
+          "409": {
+            "description": "Невозможно добавить в корзину (Товар закончился)"
+          }
+        }
+      }
+    }
+  }
+}
