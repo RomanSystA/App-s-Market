@@ -1,0 +1,313 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Adding to cart",
+    "version": "1.0.0",
+    "description": "Описание методов взимодействия пользователя с корзиной товаров со страницы товара"
+  },
+  "paths": {
+    "/items/{item_id}": {
+      "get": {
+        "summary": "Получить данные о товаре",
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "required": true,
+            "description": "Идентификатор товара",
+            "schema": {
+              "type": "integer",
+              "example": 1567
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Информация о товаре",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1567
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Spotify"
+                    },
+                    "price": {
+                      "type": "number",
+                      "example": "1799"
+                    },
+                    "filters": {
+                      "type": "object",
+                      "example": {
+                        "Period": "3 Month",
+                        "Additional": "Create account"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Товар закончился"
+          },
+          "410": {
+            "description": "Товар недоступен"
+          }
+        }
+      }
+    },
+    "/search": {
+      "get": {
+        "summary": "Поиск товара по текстовому запросу",
+        "description": "Возвращает список товаров, соответствющий тексту из поисковой строки",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "required": true,
+            "description": "Текст поискового запроса",
+            "schema": {
+              "type": "string",
+              "example": "spotify"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "лимит количества записей при введенном тексте",
+            "schema": {
+              "type": "integer",
+              "default": 15,
+              "example": 7
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "404": {
+              "description": "Товар недоступен"
+            },
+            "409": {
+              "description": "Товар закончился"
+            },
+            "description": "Результаты поиска",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "total": {
+                      "type": "integer",
+                      "example": 100
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "example": 1567
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "Spotify"
+                          },
+                          "price": {
+                            "type": "number",
+                            "example": "1799"
+                          },
+                          "category": {
+                            "type": "string",
+                            "example": "subscription"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cart/items/{item_id}": {
+      "patch": {
+        "summary": "Обновление параметров товара с учетом примененных опций",
+        "description": "Изменяет параметры товара (срок подписки, уровень подписки)",
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "required": true,
+            "description": "Идентификатор товара",
+            "schema": {
+              "type": "integer",
+              "example": 1567
+            }
+          },
+          {
+            "name": "period",
+            "in": "query",
+            "required": false,
+            "description": "фильтр срока подписки",
+            "schema": {
+              "type": "string",
+              "example": "3 Month"
+            }
+          },
+          {
+            "name": "Additional",
+            "in": "query",
+            "required": false,
+            "description": "опция создания нового аккаунта на сервисе",
+            "schema": {
+              "type": "string",
+              "example": "Create account"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "description": "Параметры для изменения (обновления)",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "quantity": {
+                    "type": "integer",
+                    "description": "Количество товара",
+                    "example": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Данные Товар изменены",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "item_id": {
+                      "type": "integer",
+                      "example": 1567
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Spotify"
+                    },
+                    "quantity": {
+                      "type": "integer",
+                      "example": 2
+                    },
+                    "applied_filters": {
+                      "type": "object",
+                      "example": {
+                        "Period": "3 Month",
+                        "Additional": "Create account"
+                      }
+                    },
+                    "status": {
+                      "type": "string",
+                      "example": "updated"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Товар недоступен"
+          },
+          "409": {
+            "description": "Ошибка изменения опций (Товар, по указаннам опциями, закончился)"
+          }
+        }
+      },
+      "post": {
+        "summary": "Добавить товар в корзину",
+        "description": "Добавляет товар в корзину; Если данный товар уже есть в коризне, увличивает его количиество",
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "required": true,
+            "description": "Идентификатор товара",
+            "schema": {
+              "type": "integer",
+              "example": 1567
+            }
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "description": "Количество товара, которое нужно добавить",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "quantity": {
+                    "type": "integer",
+                    "description": "Количество товара",
+                    "default": 1,
+                    "example": 4
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Товар добавлен в корзину",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "item_id": {
+                      "type": "integer",
+                      "example": 1567
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Spotify"
+                    },
+                    "quantity": {
+                      "type": "integer",
+                      "example": 2
+                    },
+                    "status": {
+                      "type": "string",
+                      "example": "added"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Товар недоступен"
+          },
+          "409": {
+            "description": "Невозможно добавить в корзину (Товар закончился)"
+          }
+        }
+      }
+    }
+  }
+}
