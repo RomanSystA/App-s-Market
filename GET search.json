@@ -1,81 +1,58 @@
-{
-  "openapi": "3.0.0",
-  "info": {
-    "title": "Adding to cart",
-    "version": "1.0.0",
-    "description": "Описание методов взимодействия пользователя с корзиной товаров со страницы товара"
-  },
-  "paths": {
-    "/search": {
-      "get": {
-        "summary": "Поиск товара по текстовому запросу",
-        "description": "Возвращает список товаров, соответствющий тексту из поисковой строки",
-        "parameters": [
-          {
-            "name": "query",
-            "in": "query",
-            "required": true,
-            "description": "Текст поискового запроса",
-            "schema": {
-              "type": "string",
-              "example": "spotify"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "required": false,
-            "description": "лимит количества записей при введенном тексте",
-            "schema": {
-              "type": "integer",
-              "default": 15,
-              "example": 7
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Результаты поиска",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "total": {
-                      "type": "integer",
-                      "example": 100
-                    },
-                    "items": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "integer",
-                            "example": 1567
-                          },
-                          "name": {
-                            "type": "string",
-                            "example": "Spotify"
-                          },
-                          "price": {
-                            "type": "number",
-                            "example": "1799"
-                          },
-                          "category": {
-                            "type": "string",
-                            "example": "subscription"
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
+openapi: 3.0.0
+info:
+   title: Adding to cart
+   version: 1.0.0
+   description: Описание методов взимодействия пользователя с корзиной товаров со страницы товара
+paths:
+  /search:
+     get:
+       summary: Поиск товара по текстовому запросу
+       description: Возвращает список товаров, соответствющий тексту из поисковой строки
+       parameters:
+         - name: query
+           in: query
+           required: true
+           description: Текст поискового запроса
+           schema:
+             type: string
+             example: 'spotify'
+         - name: limit
+           in: query
+           required: false
+           description: лимит количества записей при введенном тексте
+           schema:
+              type: integer
+              default: 15
+              example: 7
+       responses:
+          '201':
+           description: Результаты поиска
+           content:
+             application/json:
+               schema:
+                 type: object
+                 properties:
+                   total: 
+                     type: integer
+                     example: 100
+                   items:
+                     type: array
+                     items:
+                       type: object
+                       properties:
+                         id: 
+                           type: integer
+                           example: 1567
+                         name:
+                           type: string
+                           example: 'Spotify'
+                         price:
+                           type: number
+                           example: '1799'
+                         category:
+                           type: string
+                           example: 'subscription'
+           '404':
+             description: Товар недоступен
+           '409':
+             description: Товар закончился
