@@ -11,13 +11,17 @@ activate user
 activate front
 front -> back: Post/api/v1/user/register/'данные'
 activate back
-back-> db: сохранить данные пользователя с проверкой совпадений (SELECT "user_id" FROM users)
+back-> db: сохранить данные пользователя с проверкой совпадений (SELECT "user_id" FROM users WHERE email ="....@....com" or login="u123")
 activate db
-deactivate db
 alt Новый пользователь
+db-->back: совпадений нет 
+back->db: INSERT INTO users VALUES(123)
+db-->back: сохраняет данные
 back --> front: Created 201 OK user_id = 123
 front --> user: "Регистрация завершена"
 else Пользователь уже существует
+db-->back: Already exists
+deactivate db
 back --> front : 400 "Такой пользователь уже существует"
 deactivate back
 front --> user: "такой пользователь уже существует"
