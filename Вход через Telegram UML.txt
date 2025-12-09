@@ -21,12 +21,14 @@ activate back
 back-->back: проверка токена безопасности
 alt Данные корректны
 back->db: user_id=123 (SELECT  FROM users WHERE telegram_id=123)
+activate db
 alt Если пользователь уже был зарегистрирован другим способом
 db-->back: user record
 back-->front: 200 OK
 front-->user: Вход выполнен, Данные обновлены
 else Пользователь не найден
 db-->back: new user record
+deactivate db
 back-->front: 200 OK
 front-->user: Регистрация успешна
 end alt
