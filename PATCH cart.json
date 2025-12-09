@@ -1,0 +1,109 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Adding to cart",
+    "version": "1.0.0",
+    "description": "Описание методов взимодействия пользователя с корзиной товаров со страницы товара"
+  },
+  "paths": {
+    "/cart/items/{item_id}": {
+      "patch": {
+        "summary": "Обновление параметров товара с учетом примененных опций",
+        "description": "Изменяет параметры товара (срок подписки, уровень подписки)",
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "required": true,
+            "description": "Идентификатор товара",
+            "schema": {
+              "type": "integer",
+              "example": 1567
+            }
+          },
+          {
+            "name": "period",
+            "in": "query",
+            "required": false,
+            "description": "фильтр срока подписки",
+            "schema": {
+              "type": "string",
+              "example": "3 Month"
+            }
+          },
+          {
+            "name": "Additional",
+            "in": "query",
+            "required": false,
+            "description": "опция создания нового аккаунта на сервисе",
+            "schema": {
+              "type": "string",
+              "example": "Create account"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "description": "Параметры для изменения (обновления)",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "quantity": {
+                    "type": "integer",
+                    "description": "Количество товара",
+                    "example": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Данные Товар изменены",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "item_id": {
+                      "type": "integer",
+                      "example": 1567
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Spotify"
+                    },
+                    "quantity": {
+                      "type": "integer",
+                      "example": 2
+                    },
+                    "applied_filters": {
+                      "type": "object",
+                      "example": {
+                        "Period": "3 Month",
+                        "Additional": "Create account"
+                      }
+                    },
+                    "status": {
+                      "type": "string",
+                      "example": "updated"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Товар недоступен"
+          },
+          "409": {
+            "description": "Ошибка изменения опций (Товар, по указаннам опциями, закончился)"
+          }
+        }
+      }
+    }
+  }
+}
