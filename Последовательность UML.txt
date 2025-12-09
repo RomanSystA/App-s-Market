@@ -15,6 +15,7 @@ front->back: GET/user/123 or POST/user/123
 activate back
 back->db: SELECT user_id=123 FROM users
 activate db
+db-->back: сохраняет данные/пользователь уже существует
 deactivate db
 alt
 back-->front: 200 OK
@@ -33,17 +34,16 @@ user->front: выбирает товар с главной страницы от
 activate user
 activate front
 front->back: GET api/v1/itm/456
-activate back
 back->db: SELECT itm_id=456 FROM items
 activate db
-deactivate db
+db-->back: возвращает данные о товаре
 back-->front: 200 OK
-deactivate back
 ALT Товар доступен
 front-->user: Отображает страницу выбранного товара
 else Товар недоступен
-back-->front: 409 Conflict, Товар недоступен
-deactivate back
+db-->back: operator does not exist
+deactivate db
+back-->front: 400 Товар недоступен
 front-->user: "Товар недоступен"
 deactivate user
 deactivate front
@@ -52,28 +52,32 @@ user->front: нажимает на поисковую строку и вводи
 activate user
 activate front
 front->back: наименования по совпадениям GET api/v1/search?query="наименование"
-activate back
 back->db: SELECT * FROM items WHERE title LIKE '%наименование%"
 activate db
+db-->back: возвращает данные в соответствии с совпадениями
 deactivate db
 back-->front: 200 OK, список товаров
 front-->user: отображает результаты поиска
-user-->front: нажимает на нужный результат
-front-->back: GET api/v1/search?query="наименование"&sellers=all
+user->front: нажимает на нужный результат
+front->back: GET api/v1/search?query="наименование"&sellers=all
 back->db: SELECT * FROM items WHERE title LIKE '%наименование%" and sellers = *
 activate db
+db-->back: возвращает данные в соответствии с совпадениями
 deactivate db
 back-->front: отображает все предложения всех продавцов по данному товару
 alt Выбирает конкретный товар
 user->front: Выбирает конкретный товар
 front->back: GET/itm/456
 back->db: SELECT itm_id=456 FROM item
-back-->front: 200 OK
+activate db
 ALT Товар доступен
+db-->back: возвращает данные о товаре
+back-->front: 200 OK
 front-->user: Отображает страницу выбранного товара
 else Товар недоступен
+db-->back: operator does not exist
+deactivate db
 back-->front: 400 Товар недоступен
-deactivate back
 front-->user: "Товар недоступен"
 deactivate user
 deactivate front
@@ -82,19 +86,24 @@ else Выставляет фильтры
 user->front: Выставляет фильтры
 front->back: GET api/v1/"наименование"?"фильтр1"="100"&"фильтр2"="3"
 back->db: SELECT * FROM items WHERE title LIKE '%наименование%" and sellers = * AND "фильтр1"="100" AND "фильтр2"="3"
+activate db
+db-->back: возвращает данные в соответствии с совпадениями
+deactivate db
 back-->front: 200 OK, список товаров
 front-->user: отображает нужные товары
 user->front: нажимает на нужный товар
 front->back: GET/itm/456
-back->db: SELECT itm_id=456 FROM items
-back-->front: 200 OK
-deactivate back
 ALT Товар доступен
+back->db: SELECT itm_id=456 FROM items
+activate db
+db-->back: возвращает данные в соответствии с совпадениями
+deactivate db
+back-->front: 200 OK
 front-->user: Отображает страницу выбранного товара
-else Товар недоступен
-back-->front: 400 Товар недоступен
+else Страница товара недоступна
+back-->front: 400 Страница недоступна
 deactivate back
-front-->user: "Товар недоступен"
+front-->user: "Страница недоступна"
 deactivate user
 deactivate front
 end alt
