@@ -72,7 +72,7 @@ paths:
               default: 15
               example: 7
        responses:
-          '201':
+          '200':
            description: Результаты поиска
            content:
              application/json:
