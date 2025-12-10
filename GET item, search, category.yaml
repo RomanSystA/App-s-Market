@@ -50,7 +50,11 @@ paths:
            content:
              application/json:
                schema:
-                 $ref: '#/components/schemas/itemPageResponse'         
+                 $ref: '#/components/schemas/itemPageResponse'
+          '404':
+             description: Товар недоступен
+          '409':
+             description: Товар закончился
   /search:
      get:
        summary: Поиск товара по текстовому запросу
