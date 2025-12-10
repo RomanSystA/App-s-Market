@@ -21,11 +21,36 @@ paths:
            content:
              application/json:
                schema:
-                 $ref: '#/components/schemas/itemResponse'
+                 $ref: '#/components/schemas/itemPageResponse'
          '410':
            description: Товар недоступен
          '409':
            description: Товар закончился
+  /category/{category_id}/items/{item_id}:
+     get:
+       summary: Получить данные о товаре в категории
+       parameters:
+         - name: category_id
+           in: path
+           required: true
+           description: Тип категории
+           schema:
+             type: string
+             example: 'subscriptions'
+         - name: item_id
+           in: path
+           required: true
+           description: Идентификатор товара
+           schema:
+              type: integer
+              example: 1567
+       responses:
+          '200':
+           description: Информация о товаре
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/itemPageResponse'         
   /search:
      get:
        summary: Поиск товара по текстовому запросу
@@ -57,35 +82,11 @@ paths:
              description: Товар недоступен
            '409':
              description: Товар закончился
-  /category/{category_id}/items/{item_id}:
-     get:
-       summary: Получить данные о товаре в категории
-       parameters:
-         - name: category_id
-           in: path
-           required: true
-           description: Тип категории
-           schema:
-             type: string
-             example: 'subscriptions'
-         - name: item_id
-           in: path
-           required: true
-           description: Идентификатор товара
-           schema:
-              type: integer
-              example: 1567
-       responses:
-          '200':
-           description: Информация о товаре
-           content:
-             application/json:
-               schema:
-                 $ref: '#/components/schemas/itemResponse'
+  
 
 components: 
    schemas:
-     itemResponse:
+     itemPageResponse:
        type: object
        properties:
          id: 
@@ -97,11 +98,82 @@ components:
          price:
            type: number
            example: '1799'
+         cover_image:
+           type: string
+           description: URL обложки товара
+           example: 'https://apktake.com/storage/6375f34725de10852675ac6ee7dc9e40/5f333faed65fcApkTake.com_list_x.png'
+         seller:
+           type: string
+           description: Информация о продавце
+           properties:
+             seller_id: 
+               type: integer
+               example: 1457
+             seller_name:
+               type: string
+               example: 'LuxTake'
          filters:
+           type: array
+           description: Опции, влияющие на цену товара
+           items: 
+             type: object
+             properties:
+               name:
+                 type: string
+                 example: 'Period'
+               values: 
+                 type: array
+                 items: 
+                   type: string
+                 example: ['3 month']
+         context_description:
+            type: string
+            example: 'Музыкальный сервис Spotify для доступа к вашей любимой музыке'
+         item_description:
+           type: string
+           example: 'Подключение/продление подписки сервиса Spotify'
+         payment_methods:
+           type: array
+           description: 'Методы оплаты'
+           items: 
+             type: string
+           example: ['Картой', 'СБП']
+         screenshots:
+           type: array
+           items: 
+             type: string
+           example: 'https://cdn.lo4d.com/t/screenshot/full/spotify.webp'
+         statistics:
            type: object
-           example: 
-             Period: '3 Month'
-             Additional: 'Create account'
+           properties:
+             total_sold:
+               type: integer
+               example: 15000
+             rating:
+               type: number
+               example: 5.0
+         ui_actions:
+           type: object
+           description: Кнопки интерфейса
+           properties:
+             buy_now:
+               type: boolean
+               example: true
+             add_to_wishlist:
+               type: boolean
+               example: true
+             remove_from_cart:
+               type: boolean
+               example: true
+             increase_quantity:
+               type: boolean
+               example: true
+             decrease_quantity:
+               type: boolean
+               example: true
+             existing_account_field:
+               type: boolean
+               example: true
      searchItem:
        type: object
        properties:
