@@ -1,0 +1,195 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Adding to cart",
+    "version": "1.0.0",
+    "description": "Описание методов взимодействия пользователя с корзиной товаров со страницы товара"
+  },
+  "paths": {
+    "/items/{item_id}": {
+      "get": {
+        "summary": "Получить данные о товаре",
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "required": true,
+            "description": "Идентификатор товара",
+            "schema": {
+              "type": "integer",
+              "example": 1567
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Информация о товаре",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/itemResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Товар закончился"
+          },
+          "410": {
+            "description": "Товар недоступен"
+          }
+        }
+      }
+    },
+    "/search": {
+      "get": {
+        "summary": "Поиск товара по текстовому запросу",
+        "description": "Возвращает список товаров, соответствющий тексту из поисковой строки",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "required": true,
+            "description": "Текст поискового запроса",
+            "schema": {
+              "type": "string",
+              "example": "spotify"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "лимит количества записей при введенном тексте",
+            "schema": {
+              "type": "integer",
+              "default": 15,
+              "example": 7
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "404": {
+              "description": "Товар недоступен"
+            },
+            "409": {
+              "description": "Товар закончился"
+            },
+            "description": "Результаты поиска",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/searchResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/category/{category_id}/items/{item_id}": {
+      "get": {
+        "summary": "Получить данные о товаре в категории",
+        "parameters": [
+          {
+            "name": "category_id",
+            "in": "path",
+            "required": true,
+            "description": "Тип категории",
+            "schema": {
+              "type": "string",
+              "example": "subscriptions"
+            }
+          },
+          {
+            "name": "item_id",
+            "in": "path",
+            "required": true,
+            "description": "Идентификатор товара",
+            "schema": {
+              "type": "integer",
+              "example": 1567
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Информация о товаре",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/itemResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "itemResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1567
+          },
+          "name": {
+            "type": "string",
+            "example": "Spotify"
+          },
+          "price": {
+            "type": "number",
+            "example": "1799"
+          },
+          "filters": {
+            "type": "object",
+            "example": {
+              "Period": "3 Month",
+              "Additional": "Create account"
+            }
+          }
+        }
+      },
+      "searchItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1567
+          },
+          "name": {
+            "type": "string",
+            "example": "Spotify"
+          },
+          "price": {
+            "type": "number",
+            "example": "1799"
+          },
+          "category": {
+            "type": "string",
+            "example": "subscription"
+          }
+        }
+      },
+      "searchResponse": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer",
+            "example": 100
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/searchItem"
+            }
+          }
+        }
+      }
+    }
+  }
+}
