@@ -22,34 +22,51 @@ paths:
          content:
            application/json:
              schema:
-               type: object
-               properties:
-                 quantity:
-                   type: integer
-                   description: Количество товара
-                   default: 1
-                   example: 4
+               $ref: '#/components/schemas/addToCartRequest'
        responses:
           '201':
            description: Товар добавлен в корзину
            content:
              application/json:
                schema:
-                 type: object
-                 properties:
-                   item_id: 
-                     type: integer
-                     example: 1567
-                   name:
-                     type: string
-                     example: 'Spotify'
-                   quantity:
-                     type: integer
-                     example: 2
-                   status:
-                     type: string
-                     example: 'added'
+                 $ref: '#/components/schemas/addToCartResponse'
           '404':
              description: Товар недоступен
           '409':
              description: Невозможно добавить в корзину (Товар закончился)
+             
+components:
+   schemas:
+     addToCartRequest:
+       type: object
+       properties:
+         quantity:
+           type: integer
+           description: Количество добавляемого товара
+           default: 1
+           example: 2
+         filters: 
+           type: object
+           description: Выбранные пользователем опции
+           example: 
+             Period: '3 Month'
+             Addiction: 'Creating account'
+     addToCartResponse:
+       type: object
+       properties:
+         item_id: 
+           type: integer
+           example: 1567
+         name:
+           type: string
+           example: 'Spotify'
+         quantity: 
+           type: integer
+           example: 2
+         status:
+           type: integer
+           example: 'added'
+         
+           
+           
+           
