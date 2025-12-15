@@ -1,0 +1,126 @@
+openapi: 3.0.0
+info:
+   title: Adding to cart
+   version: 1.0.0
+   description: Описание методов взимодействия пользователя с корзиной товаров со страницы товара
+paths:
+  /cart:
+     get:
+       summary: Получить данные о странице корзины с товаром
+       responses:
+         '200':
+           description: Страница корзины
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/cartPageResponse'
+         '401':
+           description: Пользователь не авторизован
+         '500':
+           description: Ошибка сервера
+components:
+   schemas:
+     cartPageResponse:
+       type: object
+       properties:
+         title:
+           type: string
+           example: 'Товары'
+         cart_items:
+           type: array
+           items: 
+             $ref: '#/components/schemas/cartItem'
+         total_price:
+           type: number
+           example: 3598
+         payemnt:
+           $ref: '#/components/schemas/cartPayment'
+         recommendations:
+           $ref: '#/components/schemas/cartRecommendations'
+     cartItem: 
+       type: object
+       properties:
+         seller_id: 
+           type: integer
+           example: 1457
+         seller_logo:
+           type: string
+           example: 'https://digiseller.mycdn.ink/imgwebp.ashx?idp=8879329&dc=806157232'
+         images: 
+           type: array
+           items:
+             type: string
+           example: 'https://digiseller.mycdn.ink/imgwebp.ashx?idp=8879329&dc=806157232'
+         name:
+           type: string
+           example: '1/3/6/12 SPOTIFY PREMIUM INDIVIDUAL/DUO/FAMILY AUTO'
+         selected_options:
+           type: object
+           example:
+             Period: '3 Month'
+             Account: 'Make new account'
+         quantity:
+             type: integer
+             example: 2
+         price:
+             type: integer
+             example: '1799'
+         ui_actions:
+           type: object
+           properties:
+             select_for_delete:
+               type: boolean
+               example: true
+             delete_button: 
+               type: boolean
+               example: true
+             add_to_wishlist:
+               type: boolean
+               example: true
+     cartPayment:
+       type: object
+       properties:
+         pay_button:
+           type: boolean
+           example: true
+         payment_methods:
+           type: array
+           items:
+             type: string
+           example: 
+           - 'СБП' 
+           - 'Банковская карта'
+     cartRecommendations:
+       type: object
+       properties:
+         title: 
+           type: string
+           example: 'Рекомендации'
+         slider_enabled:
+           type: boolean
+           example: true
+         items:
+           type: array
+           items: 
+             $ref: '#/components/schemas/recommendedItem'
+     recommendedItem:
+       type: object
+       properties:
+         item_id:
+           type: integer
+           example: 9547
+         name:
+           type: string
+           example: 'Пополнить STEAM РФ'
+         price:
+           type: number
+           example: 21
+         image:
+           type: string
+           example: 'https://digiseller.mycdn.ink/imgwebp.ashx?idp=9621102&dc=818785940'
+         add_button:
+           type: boolean
+           example: true
+                 
+                 
+                 
