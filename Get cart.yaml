@@ -77,6 +77,12 @@ components:
              add_to_wishlist:
                type: boolean
                example: true
+             select_for_SBP:
+               type: boolean
+               example: 'СБП'
+             select_for_card:
+               type: boolean
+               example: 'Банковская карта'
      cartPayment:
        type: object
        properties:
