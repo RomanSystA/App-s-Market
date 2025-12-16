@@ -34,6 +34,8 @@ paths:
              description: Товар недоступен
           '409':
              description: Невозможно добавить в корзину (Товар закончился)
+          '400':
+             description: Некорректное значение quantity
              
 components:
    schemas:
