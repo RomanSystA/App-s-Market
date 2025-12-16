@@ -1,0 +1,324 @@
+openapi: 3.0.0
+info:
+   title: Adding to cart
+   version: 1.0.0
+   description: Описание методов взимодействия пользователя с корзиной товаров со страницы товара
+paths:
+  /items/{item_id}:
+     get:
+       summary: Получить данные о товаре
+       parameters: 
+          - name: item_id
+            in: path
+            required: true
+            description: Идентификатор товара
+            schema:
+              type: integer
+              example: 1567
+       responses:
+         '200':
+           description: Информация о товаре
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/itemPageResponse'
+         '410':
+           description: Товар недоступен
+         '409':
+           description: Товар закончился
+  /category/{category_id}/items/{item_id}:
+     get:
+       summary: Получить данные о товаре в категории
+       parameters:
+         - name: category_id
+           in: path
+           required: true
+           description: Тип категории
+           schema:
+             type: string
+             example: 'subscriptions'
+         - name: item_id
+           in: path
+           required: true
+           description: Идентификатор товара
+           schema:
+              type: integer
+              example: 1567
+       responses:
+          '200':
+           description: Информация о товаре
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/itemPageResponse'
+          '404':
+             description: Товар недоступен
+          '409':
+             description: Товар закончился
+  /search:
+     get:
+       summary: Поиск товара по текстовому запросу
+       description: Возвращает список товаров, соответствющий тексту из поисковой строки
+       parameters:
+         - name: query
+           in: query
+           required: true
+           description: Текст поискового запроса
+           schema:
+             type: string
+             example: 'spotify'
+         - name: limit
+           in: query
+           required: false
+           description: лимит количества записей при введенном тексте
+           schema:
+              type: integer
+              default: 15
+              example: 7
+       responses:
+          '200':
+           description: Результаты поиска
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/searchResponse'
+           '404':
+             description: Товар недоступен
+           '409':
+             description: Товар закончился
+  
+  /cart/items/{item_id}:
+     post:
+       summary: Добавить товар в корзину
+       description: Добавляет товар в корзину с количеством 1
+       parameters:
+         - name: item_id
+           in: path
+           required: true
+           description: Идентификатор товара
+           schema:
+             type: integer
+             example: 1567
+       requestBody:
+         required: true
+         description: выбранные пользователем опции товара
+         content:
+           application/json:
+             schema:
+               $ref: '#/components/schemas/addToCartRequest'
+       responses:
+          '201':
+           description: Товар добавлен в корзину
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/addToCartResponse'
+          '404':
+             description: Товар недоступен
+          '409':
+             description: Невозможно добавить в корзину (Товар закончился)
+     patch:
+       summary: Изменить количество добавленного в корзину товара
+       description: Изменяет количество добавленного в корзину товара (только изменение quantity)
+       parameters:
+         - name: item_id
+           in: path
+           required: true
+           description: Идентификатор товара
+           schema:
+             type: integer
+             example: 1567
+       requestBody:
+         required: true
+         description: Новое количество товара
+         content:
+           application/json:
+             schema:
+               $ref: '#/components/schemas/updateCartItemRequest'
+       responses:
+          '200':
+           description: Успешное количества изменение товара в корзине
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/updateCartItemRequestResponse'
+          '404':
+             description: Товар недоступен
+          '409':
+             description: Невозможно добавить в корзину (Товар закончился)
+          '400':
+             description: Некорректное значение quantity
+components:
+   schemas:
+     itemPageResponse:
+       type: object
+       properties:
+         id: 
+           type: integer
+           example: 1567
+         name:
+           type: string
+           example: 'Spotify'
+         price:
+           type: number
+           example: '1799'
+         cover_image:
+           type: string
+           description: URL обложки товара
+           example: 'https://apktake.com/storage/6375f34725de10852675ac6ee7dc9e40/5f333faed65fcApkTake.com_list_x.png'
+         seller:
+           type: string
+           description: Информация о продавце
+           properties:
+             seller_id: 
+               type: integer
+               example: 1457
+             seller_name:
+               type: string
+               example: 'LuxTake'
+         filters:
+           type: array
+           description: Опции, влияющие на цену товара
+           items: 
+             type: object
+             properties:
+               name:
+                 type: string
+                 example: 'Period'
+               values: 
+                 type: array
+                 items: 
+                   type: string
+                 example: ['3 month']
+         context_description:
+            type: string
+            example: 'Музыкальный сервис Spotify для доступа к вашей любимой музыке'
+         item_description:
+           type: string
+           example: 'Подключение/продление подписки сервиса Spotify'
+         payment_methods:
+           type: array
+           description: 'Методы оплаты'
+           items: 
+             type: string
+           example: ['Картой', 'СБП']
+         screenshots:
+           type: array
+           items: 
+             type: string
+           example: 'https://cdn.lo4d.com/t/screenshot/full/spotify.webp'
+         statistics:
+           type: object
+           properties:
+             total_sold:
+               type: integer
+               example: 15000
+             rating:
+               type: number
+               example: 5.0
+         ui_actions:
+           type: object
+           description: Кнопки интерфейса
+           properties:
+             buy_now:
+               type: boolean
+               example: true
+             add_to_wishlist:
+               type: boolean
+               example: true
+             remove_from_cart:
+               type: boolean
+               example: true
+             increase_quantity:
+               type: boolean
+               example: true
+             decrease_quantity:
+               type: boolean
+               example: true
+             existing_account_field:
+               type: boolean
+               example: true
+     searchItem:
+       type: object
+       properties:
+         id: 
+           type: integer
+           example: 1567
+         name:
+           type: string
+           example: 'Spotify'
+         price:
+           type: number
+           example: '1799'
+         category:
+           type: string
+           example: 'subscription'
+     searchResponse:
+       type: object
+       properties:
+         total: 
+           type: integer
+           example: 100
+         items:
+           type: array
+           items:
+             $ref: '#/components/schemas/searchItem'
+     updateCartItemRequest:
+       type: object
+       required:
+         - quantity
+       properties:
+         quantity: 
+           type: integer
+           description: Новое количество товара
+           minimum: 1
+           maximum: 1000
+           example: 3
+     updateCartItemRequestResponse:
+       type: object
+       properties:
+         item_id: 
+           type: integer
+           example: 1567
+         name:
+           type: string
+           example: 'Spotify'
+         quantity:
+           type: integer
+           description: Количество товара в корзине после добавления
+           example: 2
+         status:
+           type: string
+           example: 'updated'
+     addToCartRequest:
+       type: object
+       properties:
+         filters: 
+           type: object
+           description: Выбранные пользователем опции
+           example: 
+             Period: '3 Month'
+             Addiction: 'Creating account'
+         quantity:
+           type: integer
+           description: Количество товара в корзине после добавления
+           example: 1
+     addToCartResponse:
+       type: object
+       properties:
+         item_id: 
+           type: integer
+           example: 1567
+         name:
+           type: string
+           example: 'Spotify'
+         quantity:
+           type: integer
+           description: Количество товара в корзине после добавления
+           example: 1
+         status:
+           type: string
+           example: 'added' 
+           
+           
+           
