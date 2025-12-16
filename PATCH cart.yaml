@@ -30,6 +30,8 @@ paths:
              application/json:
                schema:
                  $ref: '#/components/schemas/updateCartItemRequestResponse'
+          '400':
+             description: Некорректное значение quantity
           '404':
              description: Товар недоступен
           '409':
@@ -68,4 +70,5 @@ components:
            
            
            
+
 
