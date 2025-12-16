@@ -143,14 +143,6 @@ components:
          add_button:
            type: boolean
            example: true
-     deleteCartItemsRequest:
-       type: object
-       properties: 
-         item_ids:
-           type: array
-           items:
-             type: integer
-           example: [9547. 1567]
      emptyCartResponse:
        type: object
        properties:
@@ -165,6 +157,4 @@ components:
            example: 'Вы можете подобрать желаемый товар в нашем каталоге'
          recommendations: 
            $ref: '#/components/schemas/cartRecommendations'
-                 
-
                  
