@@ -24,7 +24,7 @@ paths:
              schema:
                $ref: '#/components/schemas/updateCartItemRequest'
        responses:
-          '201':
+          '200':
            description: Товар добавлен в корзину
            content:
              application/json:
@@ -68,3 +68,4 @@ components:
            
            
            
+
