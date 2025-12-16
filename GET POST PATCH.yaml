@@ -148,6 +148,8 @@ paths:
              description: Невозможно добавить в корзину (Товар закончился)
           '400':
              description: Некорректное значение quantity
+          '500':
+             description: Ошибка сервера
 components:
    schemas:
      itemPageResponse:
