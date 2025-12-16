@@ -5,9 +5,9 @@ info:
    description: Описание методов взимодействия пользователя с корзиной товаров со страницы товара
 paths:
   /cart/items/{item_id}:
-     post:
-       summary: Добавить товар в корзину
-       description: Добавляет товар в корзину с количеством 1
+     patch:
+       summary: Изменить количество добавленного в корзину товара
+       description: Изменяет количество добавленного в корзину товара (только изменение quantity)
        parameters:
          - name: item_id
            in: path
@@ -18,18 +18,18 @@ paths:
              example: 1567
        requestBody:
          required: true
-         description: выбранные пользователем опции товара
+         description: Новое количество товара
          content:
            application/json:
              schema:
-               $ref: '#/components/schemas/addToCartRequest'
+               $ref: '#/components/schemas/updateCartItemRequest'
        responses:
-          '200':
+          '201':
            description: Товар добавлен в корзину
            content:
              application/json:
                schema:
-                 $ref: '#/components/schemas/addToCartResponse'
+                 $ref: '#/components/schemas/updateCartItemRequestResponse'
           '404':
              description: Товар недоступен
           '409':
@@ -37,20 +37,18 @@ paths:
              
 components:
    schemas:
-     addToCartRequest:
+     updateCartItemRequest:
        type: object
+       required:
+         - quantity
        properties:
-         filters: 
-           type: object
-           description: Выбранные пользователем опции
-           example: 
-             Period: '3 Month'
-             Addiction: 'Creating account'
-         quantity:
+         quantity: 
            type: integer
-           description: Количество товара в корзине после добавления
-           example: 1
-     addToCartResponse:
+           description: Новое количество товара
+           minimum: 1
+           maximum: 1000
+           example: 3
+     updateCartItemRequestResponse:
        type: object
        properties:
          item_id: 
@@ -62,10 +60,10 @@ components:
          quantity:
            type: integer
            description: Количество товара в корзине после добавления
-           example: 1
+           example: 2
          status:
            type: string
-           example: 'added'
+           example: 'updated'
          
            
            
