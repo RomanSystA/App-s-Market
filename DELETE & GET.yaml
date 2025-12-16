@@ -44,16 +44,13 @@ paths:
          '401':
            description: Пользователь не авторизован
          '500':
-           description: Ошибка сервера
-            
+           description: Ошибка сервера           
+
 components:
    schemas:
      cartPageResponse:
        type: object
        properties:
-         main_title: 
-           type: string
-           example: 'Корзина'
          title:
            type: string
            example: 'Товары'
@@ -64,7 +61,7 @@ components:
          total_price:
            type: number
            example: 3598
-         payment:
+         payemnt:
            $ref: '#/components/schemas/cartPayment'
          recommendations:
            $ref: '#/components/schemas/cartRecommendations'
@@ -95,7 +92,7 @@ components:
              example: 2
          price:
              type: integer
-             example: 1799
+             example: '1799'
          ui_actions:
            type: object
            properties:
@@ -110,10 +107,10 @@ components:
                example: true
              select_for_SBP:
                type: boolean
-               example: true
+               example: 'СБП'
              select_for_card:
                type: boolean
-               example: false
+               example: 'Банковская карта'
      cartPayment:
        type: object
        properties:
@@ -158,20 +155,12 @@ components:
          add_button:
            type: boolean
            example: true
-     deleteCartItemsRequest:
-       type: object
-       properties: 
-         item_ids:
-           type: array
-           items:
-             type: integer
-           example: [9547. 1567]
      emptyCartResponse:
        type: object
        properties:
-         title: 
+         main_title: 
            type: string
-           example: 'Товары'
+           example: 'Корзина'
          empty_text:
            type: string
            example: 'В корзине пусто'
