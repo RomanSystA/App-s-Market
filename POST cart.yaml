@@ -7,7 +7,7 @@ paths:
   /cart/items/{item_id}:
      post:
        summary: Добавить товар в корзину
-       description: Добавляет товар в корзину; Если данный товар уже есть в коризне, увличивает его количиество 
+       description: Добавляет товар в корзину с количеством 1
        parameters:
          - name: item_id
            in: path
@@ -17,8 +17,8 @@ paths:
              type: integer
              example: 1567
        requestBody:
-         required: false
-         description: Количество товара, которое нужно добавить
+         required: true
+         description: выбранные пользователем опции товара
          content:
            application/json:
              schema:
@@ -40,19 +40,16 @@ components:
      addToCartRequest:
        type: object
        properties:
-         quantity:
-           type: integer
-           description: Количество добавляемого товара
-           default: 1
-           minimum: 1
-           maximum: 1000
-           example: 2
          filters: 
            type: object
            description: Выбранные пользователем опции
            example: 
              Period: '3 Month'
              Addiction: 'Creating account'
+         quantity:
+           type: integer
+           description: Количество товара в корзине после добавления
+           example: 1
      addToCartResponse:
        type: object
        properties:
@@ -62,12 +59,10 @@ components:
          name:
            type: string
            example: 'Spotify'
-         quantity: 
+         quantity:
            type: integer
-           default: 1
-           minimum: 1
-           maximum: 1000
-           example: 2
+           description: Количество товара в корзине после добавления
+           example: 1
          status:
            type: string
            example: 'added'
