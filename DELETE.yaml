@@ -154,9 +154,9 @@ components:
      emptyCartResponse:
        type: object
        properties:
-         title: 
+         main_title: 
            type: string
-           example: 'Товары'
+           example: 'Корзина'
          empty_text:
            type: string
            example: 'В корзине пусто'
@@ -166,4 +166,5 @@ components:
          recommendations: 
            $ref: '#/components/schemas/cartRecommendations'
                  
+
                  
