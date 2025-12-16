@@ -1,0 +1,98 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Adding to cart",
+    "version": "1.0.0",
+    "description": "Описание методов взимодействия пользователя с корзиной товаров со страницы товара"
+  },
+  "paths": {
+    "/cart/items/{item_id}": {
+      "patch": {
+        "summary": "Изменить количество добавленного в корзину товара",
+        "description": "Изменяет количество добавленного в корзину товара (только изменение quantity)",
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "required": true,
+            "description": "Идентификатор товара",
+            "schema": {
+              "type": "integer",
+              "example": 1567
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Новое количество товара",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updateCartItemRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Товар добавлен в корзину",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/updateCartItemRequestResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Товар недоступен"
+          },
+          "409": {
+            "description": "Невозможно добавить в корзину (Товар закончился)"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "updateCartItemRequest": {
+        "type": "object",
+        "required": [
+          "quantity"
+        ],
+        "properties": {
+          "quantity": {
+            "type": "integer",
+            "description": "Новое количество товара",
+            "minimum": 1,
+            "maximum": 1000,
+            "example": 3
+          }
+        }
+      },
+      "updateCartItemRequestResponse": {
+        "type": "object",
+        "properties": {
+          "item_id": {
+            "type": "integer",
+            "example": 1567
+          },
+          "name": {
+            "type": "string",
+            "example": "Spotify"
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "Количество товара в корзине после добавления",
+            "example": 2
+          },
+          "status": {
+            "type": "string",
+            "example": "updated"
+          }
+        }
+      }
+    }
+  }
+}
