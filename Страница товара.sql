@@ -29,7 +29,12 @@ CREATE TABLE "reviews" (
   "rating_id" smalliant
 );
 
-CREATE TABLE "rating" (
+CREATE TABLE "item_rating" (
+  "id" smalliant PRIMARY KEY,
+  "value" decimal
+);
+
+CREATE TABLE "seller_rating" (
   "id" smalliant PRIMARY KEY,
   "value" decimal
 );
@@ -57,13 +62,20 @@ CREATE TABLE "opt_value" (
   "price_delta" decimal
 );
 
+CREATE TABLE "seller" (
+  "id" integer PRIMARY KEY,
+  "item_id" integer,
+  "name" varchar,
+  "rating" smallient
+);
+
 COMMENT ON COLUMN "users"."tg_username" IS 'логин в тг, к которому привязан акк';
 
 COMMENT ON COLUMN "reviews"."rating_id" IS '1...5';
 
 ALTER TABLE "item" ADD FOREIGN KEY ("id") REFERENCES "item_category" ("item_id");
 
-ALTER TABLE "reviews" ADD FOREIGN KEY ("rating_id") REFERENCES "rating" ("id");
+ALTER TABLE "reviews" ADD FOREIGN KEY ("rating_id") REFERENCES "item_rating" ("id");
 
 ALTER TABLE "users" ADD FOREIGN KEY ("id") REFERENCES "favourites" ("user_id");
 
@@ -71,10 +83,14 @@ ALTER TABLE "users" ADD FOREIGN KEY ("id") REFERENCES "reviews" ("user_id");
 
 ALTER TABLE "item" ADD FOREIGN KEY ("id") REFERENCES "reviews" ("item_id");
 
-ALTER TABLE "item" ADD FOREIGN KEY ("rating") REFERENCES "rating" ("id");
+ALTER TABLE "item" ADD FOREIGN KEY ("rating") REFERENCES "item_rating" ("id");
 
 ALTER TABLE "users" ADD FOREIGN KEY ("id") REFERENCES "cart" ("user_id");
 
 ALTER TABLE "option" ADD FOREIGN KEY ("id") REFERENCES "opt_value" ("option_id");
 
 ALTER TABLE "item" ADD FOREIGN KEY ("id") REFERENCES "option" ("item_id");
+
+ALTER TABLE "seller" ADD FOREIGN KEY ("rating") REFERENCES "seller_rating" ("id");
+
+ALTER TABLE "item" ADD FOREIGN KEY ("seller_id") REFERENCES "seller" ("id");
