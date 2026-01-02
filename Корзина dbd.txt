@@ -1,0 +1,83 @@
+Table users {
+  id integer [pk]
+  email varchar
+  phone_number varchar
+  tg_username varchar [note: 'логин в тг, к которому привязан акк']
+}
+Table item {
+ id integer [pk]
+ seller_id integer
+ name varchar
+ category varchar
+ base_price decimal
+ rating smallient
+ reviews_quantity decimal
+}
+Table item_category{
+  id integer [pk]
+  item_id integer
+  name varchar
+}
+
+Table favourites{
+  id integer [pk]
+  user_id integer
+}
+Table cart{
+  id integer [pk]
+  user_id integer
+  }
+Table cart_item{
+  id integer [pk]
+  user_id integer
+  cart_id integer
+  item_id integer
+  quantity decimal
+  price decimal
+}
+Table option{
+  id integer [pk]
+  item_id integer
+  name varchar
+}
+Table opt_value{
+  id integer [pk]
+  option_id integer
+  value varchar
+  price_delta decimal 
+}
+Table seller{
+  id integer [pk]
+  item_id integer
+  name varchar
+  rating smallient
+}
+Table seller_rating{
+  id smalliant [pk]
+  value decimal
+}
+Table item_rating{
+  id smalliant [pk]
+  value decimal
+}
+Ref: "item"."id" > "item_category"."item_id"
+
+Ref: "favourites"."user_id" < "users"."id"
+
+Ref: "cart"."user_id" < "users"."id"
+
+Ref: "opt_value"."option_id" < "option"."id"
+
+Ref: "option"."item_id" < "item"."id"
+
+Ref: "cart_item"."user_id" < "favourites"."id"
+
+Ref: "cart_item"."cart_id" < "cart"."id"
+
+Ref: "cart_item"."item_id" < "item"."id"
+
+Ref: "seller_rating"."id" < "seller"."rating"
+
+Ref: "seller"."id" < "item"."seller_id"
+
+Ref: "item_rating"."id" < "item"."rating"
