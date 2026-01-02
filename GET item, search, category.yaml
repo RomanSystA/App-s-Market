@@ -117,15 +117,15 @@ components:
                type: string
                example: 'LuxTake'
          reviews:
-           type: array
+           type: string
            description: Содержит url страницы отзывов пользователей о товаре и число отзывов
-             properties:
-               reviews_url:
-                 type: string
-                 example: https://plati.ru/itm/spotify/1567/reviews/6597
-               reviews_quantity:
-                 type: boolean
-                 example: 97
+           properties:
+             reviews_url:
+               type: string
+               example: https://plati.ru/itm/spotify/1567/reviews/6597
+             quantity:
+               type: boolean
+               example: 97
          rating:
            type: boolean
            description: Содержит цифру среднего значения рейтинга товара
@@ -218,4 +218,3 @@ components:
            items:
              $ref: '#/components/schemas/searchItem'
         
-
