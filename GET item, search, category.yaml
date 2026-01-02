@@ -117,7 +117,7 @@ components:
                type: string
                example: 'LuxTake'
          reviews:
-           type: string
+           type: object
            description: Содержит url страницы отзывов пользователей о товаре и число отзывов
            properties:
              reviews_url:
