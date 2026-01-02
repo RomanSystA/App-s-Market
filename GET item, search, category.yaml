@@ -120,6 +120,10 @@ components:
            type: string
            description: Содержит url страницы отзывов пользователей о товаре
            example: https://plati.ru/itm/spotify/1567/reviews/6597
+         rating:
+           type: boolean
+           description: Содержит цифру среднего значения рейтинга товара
+           example: 5
          filters:
            type: array
            description: Опции, влияющие на цену товара
