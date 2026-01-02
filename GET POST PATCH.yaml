@@ -178,6 +178,20 @@ components:
              seller_name:
                type: string
                example: 'LuxTake'
+         reviews:
+           type: object
+           description: Содержит url страницы отзывов пользователей о товаре и число отзывов
+           properties:
+             reviews_url:
+               type: string
+               example: https://plati.ru/itm/spotify/1567/reviews/6597
+             quantity:
+               type: boolean
+               example: 97
+         rating:
+           type: boolean
+           description: Содержит цифру среднего значения рейтинга товара
+           example: 5
          filters:
            type: array
            description: Опции, влияющие на цену товара
@@ -324,3 +338,4 @@ components:
            
            
            
+
