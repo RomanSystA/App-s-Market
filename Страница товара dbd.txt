@@ -1,5 +1,7 @@
 Table user {
   id integer [pk]
+  first_name" varchar,
+  last_name" varchar,
   email varchar
   phone_number varchar
   tg_username varchar [note: 'логин в тг, к которому привязан акк']
@@ -93,5 +95,6 @@ Ref: "item_category"."item_id" > "item"."id"
 
 
 Ref: "seller_item"."seller_id" < "seller"."id"
+
 
 Ref: "seller_item"."item_id" < "item"."id"
