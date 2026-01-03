@@ -1,5 +1,7 @@
 Table user {
   id integer [pk]
+  first_name varchar
+  last_name varchar
   email varchar
   phone_number varchar
   tg_username varchar [note: 'логин в тг, к которому привязан акк']
@@ -77,7 +79,7 @@ Table item_category {
 }
 Ref: "favorites"."user_id" > "user"."id"
 
-Ref: "cart"."user_id" < "user"."id"
+Ref: "cart"."user_id" - "user"."id"
 
 Ref: "opt_value"."option_id" < "option"."id"
 
@@ -85,7 +87,7 @@ Ref: "option"."item_id" < "item"."id"
 
 Ref: "cart_item"."cart_id" < "cart"."id"
 
-Ref: "cart_item"."item_id" < "item"."id"
+Ref: "cart_item"."item_id" > "item"."id"
 
 Ref: "seller_rating"."id" < "seller"."rating"
 
