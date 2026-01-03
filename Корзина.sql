@@ -1,5 +1,7 @@
 CREATE TABLE "user" (
   "id" integer PRIMARY KEY,
+  "first_name" varchar
+  "last_name" varchar
   "email" varchar,
   "phone_number" varchar,
   "tg_username" varchar
