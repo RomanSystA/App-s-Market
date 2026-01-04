@@ -4,6 +4,7 @@ Table user {
   last_name varchar
   email varchar
   phone_number varchar
+  created_at timestamp
   tg_username varchar [note: 'логин в тг, к которому привязан акк']
 }
 Table item {
@@ -95,5 +96,6 @@ Ref: "item_category"."item_id" > "item"."id"
 
 
 Ref: "seller_item"."seller_id" < "seller"."id"
+
 
 Ref: "seller_item"."item_id" < "item"."id"
