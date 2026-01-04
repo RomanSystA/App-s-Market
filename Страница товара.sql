@@ -83,21 +83,21 @@ CREATE TABLE "seller_item" (
   "available" boolean
 );
 
-COMMENT ON COLUMN "user"."tg_username" IS 'логин в тг, к которому привязан акк';
+COMMENT ON COLUMN "users"."tg_username" IS 'логин в тг, к которому привязан акк';
 
 COMMENT ON COLUMN "item_rating"."id" IS '"item_rating"."id" < "item"."rating"';
 
 ALTER TABLE "reviews" ADD FOREIGN KEY ("rating_id") REFERENCES "item_rating" ("id");
 
-ALTER TABLE "user" ADD FOREIGN KEY ("id") REFERENCES "favorites" ("user_id");
+ALTER TABLE "users" ADD FOREIGN KEY ("id") REFERENCES "favorites" ("user_id");
 
-ALTER TABLE "user" ADD FOREIGN KEY ("id") REFERENCES "reviews" ("user_id");
+ALTER TABLE "users" ADD FOREIGN KEY ("id") REFERENCES "reviews" ("user_id");
 
 ALTER TABLE "item" ADD FOREIGN KEY ("id") REFERENCES "reviews" ("item_id");
 
 ALTER TABLE "item" ADD FOREIGN KEY ("rating") REFERENCES "item_rating" ("id");
 
-ALTER TABLE "user" ADD FOREIGN KEY ("id") REFERENCES "cart" ("user_id");
+ALTER TABLE "users" ADD FOREIGN KEY ("id") REFERENCES "cart" ("user_id");
 
 ALTER TABLE "option" ADD FOREIGN KEY ("id") REFERENCES "opt_value" ("option_id");
 
