@@ -1,4 +1,4 @@
-Table users {
+Table user {
   id integer [pk]
   first_name varchar
   last_name varchar
@@ -74,19 +74,19 @@ Table seller_item {
 }
 Ref: "reviews"."rating_id" > "item_rating"."id"
 
-Ref: "favorites"."user_id" < "user"."id"
+Ref: "favorites"."user_id" > "user"."id"
 
-Ref: "reviews"."user_id" < "user"."id"
+Ref: "reviews"."user_id" > "user"."id"
 
-Ref: "reviews"."item_id" < "item"."id"
+Ref: "reviews"."item_id" > "item"."id"
 
 Ref: "item_rating"."id" < "item"."rating"
 
 Ref: "cart"."user_id" - "user"."id"
 
-Ref: "opt_value"."option_id" < "option"."id"
+Ref: "opt_value"."option_id" > "option"."id"
 
-Ref: "option"."item_id" < "item"."id"
+Ref: "option"."item_id" > "item"."id"
 
 Ref: "seller_rating"."id" < "seller"."rating"
 
@@ -94,9 +94,6 @@ Ref: "category"."id" < "item_category"."category_id"
 
 Ref: "item_category"."item_id" > "item"."id"
 
+Ref: "seller_item"."seller_id" > "seller"."id"
 
-Ref: "seller_item"."seller_id" < "seller"."id"
-
-
-Ref: "seller_item"."item_id" < "item"."id"
-
+Ref: "seller_item"."item_id" > "item"."id"
