@@ -77,17 +77,17 @@ Table item_category {
   price decimal
   available boolean
 }
-Ref: "favorites"."user_id" > "user"."id"
+Ref: "favorites"."user_id" > "users"."id"
 
-Ref: "cart"."user_id" - "user"."id"
+Ref: "cart"."user_id" - "users"."id"
 
-Ref: "opt_value"."option_id" < "option"."id"
+Ref: "opt_value"."option_id" > "option"."id"
 
-Ref: "option"."item_id" < "item"."id"
+Ref: "option"."item_id" > "item"."id"
 
-Ref: "cart_item"."cart_id" < "cart"."id"
+Ref: "cart_item"."cart_id" > "cart"."id"
 
-Ref: "cart_item"."item_id" > "item"."id"
+Ref: "cart_item"."item_id" < "item"."id"
 
 Ref: "seller_rating"."id" < "seller"."rating"
 
@@ -105,6 +105,4 @@ Ref: "favorites"."item_id" > "item"."id"
 
 Ref: "seller"."id" < "seller_item"."seller_id"
 
-
-Ref: "seller_item"."item_id" < "item"."id"
-
+Ref: "seller_item"."item_id" > "item"."id"
