@@ -36,6 +36,7 @@ Table cart_item{
   item_id integer
   quantity decimal
   price decimal
+  user_id integer
 }
 Table option{
   id integer [pk]
@@ -106,3 +107,4 @@ Ref: "favorites"."item_id" > "item"."id"
 Ref: "seller"."id" < "seller_item"."seller_id"
 
 Ref: "seller_item"."item_id" > "item"."id"
+
