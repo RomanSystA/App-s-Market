@@ -87,17 +87,17 @@ CREATE TABLE "seller_item" (
   "available" boolean
 );
 
-COMMENT ON COLUMN "user"."tg_username" IS 'логин в тг, к которому привязан акк';
+COMMENT ON COLUMN "users"."tg_username" IS 'логин в тг, к которому привязан акк';
 
-ALTER TABLE "favorites" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("id");
+ALTER TABLE "favorites" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 
-ALTER TABLE "user" ADD FOREIGN KEY ("id") REFERENCES "cart" ("user_id");
+ALTER TABLE "cart" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 
-ALTER TABLE "option" ADD FOREIGN KEY ("id") REFERENCES "opt_value" ("option_id");
+ALTER TABLE "opt_value" ADD FOREIGN KEY ("option_id") REFERENCES "option" ("id");
 
-ALTER TABLE "item" ADD FOREIGN KEY ("id") REFERENCES "option" ("item_id");
+ALTER TABLE "option" ADD FOREIGN KEY ("item_id") REFERENCES "item" ("id");
 
-ALTER TABLE "cart" ADD FOREIGN KEY ("id") REFERENCES "cart_item" ("cart_id");
+ALTER TABLE "cart_item"ADD FOREIGN KEY ("cart_id") REFERENCES "cart" ("id");
 
 ALTER TABLE "cart_item" ADD FOREIGN KEY ("item_id") REFERENCES "item" ("id");
 
@@ -117,4 +117,4 @@ ALTER TABLE "favorites" ADD FOREIGN KEY ("item_id") REFERENCES "item" ("id");
 
 ALTER TABLE "seller_item" ADD FOREIGN KEY ("seller_id") REFERENCES "seller" ("id");
 
-ALTER TABLE "item" ADD FOREIGN KEY ("id") REFERENCES "seller_item" ("item_id");
+ALTER TABLE "seller_item" ADD FOREIGN KEY ("item_id") REFERENCES "item" ("id");
