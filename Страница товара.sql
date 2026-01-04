@@ -4,6 +4,7 @@ CREATE TABLE "user" (
   "last_name" varchar,
   "email" varchar,
   "phone_number" varchar,
+  "created_at" timestamp,
   "tg_username" varchar
 );
 
