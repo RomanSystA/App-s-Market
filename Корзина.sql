@@ -38,6 +38,7 @@ CREATE TABLE "cart_item" (
   "item_id" integer,
   "quantity" decimal,
   "price" decimal
+  "user_id" integer
 );
 
 CREATE TABLE "option" (
