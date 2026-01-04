@@ -89,19 +89,19 @@ COMMENT ON COLUMN "item_rating"."id" IS '"item_rating"."id" < "item"."rating"';
 
 ALTER TABLE "reviews" ADD FOREIGN KEY ("rating_id") REFERENCES "item_rating" ("id");
 
-ALTER TABLE "users" ADD FOREIGN KEY ("id") REFERENCES "favorites" ("user_id");
+ALTER TABLE "favorites" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");;
 
-ALTER TABLE "users" ADD FOREIGN KEY ("id") REFERENCES "reviews" ("user_id");
+ALTER TABLE "reviews" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 
-ALTER TABLE "item" ADD FOREIGN KEY ("id") REFERENCES "reviews" ("item_id");
+ALTER TABLE "reviews" ADD FOREIGN KEY ("item_id") REFERENCES "item" ("id");
 
 ALTER TABLE "item" ADD FOREIGN KEY ("rating") REFERENCES "item_rating" ("id");
 
-ALTER TABLE "users" ADD FOREIGN KEY ("id") REFERENCES "cart" ("user_id");
+ALTER TABLE "cart" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 
-ALTER TABLE "option" ADD FOREIGN KEY ("id") REFERENCES "opt_value" ("option_id");
+ALTER TABLE "opt_value" ADD FOREIGN KEY ("option_id") REFERENCES "option" ("id");
 
-ALTER TABLE "item" ADD FOREIGN KEY ("id") REFERENCES "option" ("item_id");
+ALTER TABLE "option" ADD FOREIGN KEY ("item_id") REFERENCES "item" ("id");
 
 ALTER TABLE "seller" ADD FOREIGN KEY ("rating") REFERENCES "seller_rating" ("id");
 
@@ -109,6 +109,6 @@ ALTER TABLE "item_category" ADD FOREIGN KEY ("category_id") REFERENCES "category
 
 ALTER TABLE "item_category" ADD FOREIGN KEY ("item_id") REFERENCES "item" ("id");
 
-ALTER TABLE "seller" ADD FOREIGN KEY ("id") REFERENCES "seller_item" ("seller_id");
+ALTER TABLE "seller_item" ADD FOREIGN KEY ("seller_id") references "seller" ("id");
 
 ALTER TABLE "item" ADD FOREIGN KEY ("id") REFERENCES "seller_item" ("item_id");
