@@ -1,4 +1,4 @@
-Table user {
+Table users {
   id integer [pk]
   first_name varchar
   last_name varchar
@@ -107,3 +107,4 @@ Ref: "seller"."id" < "seller_item"."seller_id"
 
 
 Ref: "seller_item"."item_id" < "item"."id"
+
