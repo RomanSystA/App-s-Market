@@ -99,7 +99,7 @@ CREATE TABLE "orders" (
 
 CREATE TABLE "users_orders" (
   "user_id" integer,
-  "itam_id" integer
+  "item_id" integer
 );
 
 COMMENT ON COLUMN "users"."tg_username" IS 'логин в тг, к которому привязан акк';
