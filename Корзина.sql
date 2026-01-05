@@ -131,6 +131,6 @@ ALTER TABLE "seller_item" ADD FOREIGN KEY ("item_id") REFERENCES "item" ("id");
 
 ALTER TABLE "users" ADD FOREIGN KEY ("id") REFERENCES "cart_item" ("user_id");
 
-ALTER TABLE "users" ADD FOREIGN KEY ("id") REFERENCES "orders" ("user_id");
+ALTER TABLE "orders" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 
-ALTER TABLE "item" ADD FOREIGN KEY ("id") REFERENCES "orders" ("item_id");
+ALTER TABLE "orders" ADD FOREIGN KEY ("id") REFERENCES "item" ("id");
