@@ -140,6 +140,6 @@ ALTER TABLE "users_orders" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id")
 
 ALTER TABLE "users_orders" ADD FOREIGN KEY ("user_id") REFERENCES "orders" ("id");
 
-ALTER TABLE "users_orders" ADD FOREIGN KEY ("itam_id") REFERENCES "item" ("id");
+ALTER TABLE "users_orders" ADD FOREIGN KEY ("item_id") REFERENCES "item" ("id");
 
-ALTER TABLE "users_orders" ADD FOREIGN KEY ("itam_id") REFERENCES "orders" ("item_id");
+ALTER TABLE "users_orders" ADD FOREIGN KEY ("item_id") REFERENCES "orders" ("item_id");
