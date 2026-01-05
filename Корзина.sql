@@ -22,8 +22,8 @@ CREATE TABLE "category" (
 );
 
 CREATE TABLE "favorites" (
-  "user_id" integer,
-  "item_id" integer,
+  "user_id" integer PRIMARY KEY,
+  "item_id" integer PRIMARY KEY,
   PRIMARY KEY ("user_id", "item_id")
 );
 
