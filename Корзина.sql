@@ -97,11 +97,6 @@ CREATE TABLE "orders" (
   "created_at" timestamp
 );
 
-CREATE TABLE "users_orders" (
-  "user_id" integer,
-  "item_id" integer
-);
-
 COMMENT ON COLUMN "users"."tg_username" IS 'логин в тг, к которому привязан акк';
 
 ALTER TABLE "favorites" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
@@ -136,10 +131,6 @@ ALTER TABLE "seller_item" ADD FOREIGN KEY ("item_id") REFERENCES "item" ("id");
 
 ALTER TABLE "users" ADD FOREIGN KEY ("id") REFERENCES "cart_item" ("user_id");
 
-ALTER TABLE "users_orders" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
+ALTER TABLE "users" ADD FOREIGN KEY ("id") REFERENCES "orders" ("user_id");
 
-ALTER TABLE "users_orders" ADD FOREIGN KEY ("user_id") REFERENCES "orders" ("id");
-
-ALTER TABLE "users_orders" ADD FOREIGN KEY ("item_id") REFERENCES "item" ("id");
-
-ALTER TABLE "users_orders" ADD FOREIGN KEY ("item_id") REFERENCES "orders" ("item_id");
+ALTER TABLE "item" ADD FOREIGN KEY ("id") REFERENCES "orders" ("item_id");
