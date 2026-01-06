@@ -22,8 +22,9 @@ CREATE TABLE "category" (
 );
 
 CREATE TABLE "favorites" (
-  "user_id" integer PRIMARY KEY,
-  "item_id" integer PRIMARY KEY,
+  "user_id" integer,
+  "item_id" integer,
+  PRIMARY KEY ("user_id", "item_id"),
   PRIMARY KEY ("user_id", "item_id")
 );
 
@@ -35,10 +36,10 @@ CREATE TABLE "cart" (
 CREATE TABLE "cart_item" (
   "id" integer PRIMARY KEY,
   "cart_id" integer,
+  "user_id" integer,
   "item_id" integer,
   "quantity" decimal,
-  "price" decimal,
-  "user_id" integer
+  "price" decimal
 );
 
 CREATE TABLE "option" (
@@ -133,4 +134,4 @@ ALTER TABLE "users" ADD FOREIGN KEY ("id") REFERENCES "cart_item" ("user_id");
 
 ALTER TABLE "orders" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 
-ALTER TABLE "orders" ADD FOREIGN KEY ("id") REFERENCES "item" ("id");
+ALTER TABLE "orders" ADD FOREIGN KEY ("item_id") REFERENCES "item" ("id");
