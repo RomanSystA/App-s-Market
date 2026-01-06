@@ -20,8 +20,8 @@ Table category{
 }
 
 Table favorites{
-  user_id integer
-  item_id integer
+  user_id integer [pk]
+  item_id integer [pk]
   indexes {
     (user_id, item_id) [pk]
   }
@@ -33,10 +33,10 @@ Table cart{
 Table cart_item{
   id integer [pk]
   cart_id integer
+  user_id integer
   item_id integer
   quantity decimal
   price decimal
-  user_id integer
 }
 Table option{
   id integer [pk]
