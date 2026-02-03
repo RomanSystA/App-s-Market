@@ -85,6 +85,7 @@ Table orders{
   seller_id integer
   price decimal
   created_at timestamp
+  quantity integer
 }
 Ref: "favorites"."user_id" > "users"."id"
 
