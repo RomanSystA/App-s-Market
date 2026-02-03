@@ -86,7 +86,7 @@ Table orders{
   price decimal
   created_at timestamp
   quantity integer
-  status integer
+  status varchar
 }
 Ref: "favorites"."user_id" > "users"."id"
 
@@ -123,4 +123,5 @@ Ref: "cart_item"."user_id" < "users"."id"
 Ref: "orders"."user_id" > "users"."id"
 
 Ref: "orders"."item_id" > "item"."id"
+
 
