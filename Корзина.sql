@@ -97,6 +97,7 @@ CREATE TABLE "orders" (
   "price" decimal,
   "created_at" timestamp,
   "quantity" integer
+  "status" varchar
 );
 
 COMMENT ON COLUMN "users"."tg_username" IS 'логин в тг, к которому привязан акк';
